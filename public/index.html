@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudflare App Deployer</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 60px auto; padding: 0 20px; color: #1a1a1a; }
+    h1 { font-size: 1.6rem; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; line-height: 1.5; }
+    .badge { display: inline-block; background: #f6821f; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; vertical-align: middle; }
+  </style>
+</head>
+<body>
+  <h1>Cloudflare App Deployer <span class="badge">MCP + REST</span></h1>
+  <p>Deploy web apps from Claude chat — no CLI required. Apps are served instantly from Workers KV.</p>
+
+  <h2>MCP (Claude.ai integration)</h2>
+  <p>Add as a <strong>Remote MCP Server</strong> in Claude.ai settings → Integrations:</p>
+  <pre>URL:    https://cloudflare-deployer.pages.dev/mcp
+Header: X-Auth-Key: &lt;your key&gt;</pre>
+  <p>Tool: <code>deploy_app(projectName, htmlContent)</code> → returns live URL</p>
+
+  <h2>REST API (fetch from Claude artifacts)</h2>
+  <pre>POST /deploy
+Content-Type: application/json
+X-Auth-Key: &lt;your key&gt;
+
+{ "projectName": "my-app", "htmlContent": "&lt;!DOCTYPE html&gt;..." }
+
+→ { "success": true, "url": "https://.../apps/my-app", "appName": "my-app" }</pre>
+
+  <h2>Deployed apps</h2>
+  <p>Apps are served at <code>/apps/{name}</code> on this domain — instantly, no DNS wait.</p>
+</body>
+</html>

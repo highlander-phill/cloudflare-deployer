@@ -1,0 +1,15 @@
+# Copy this to .dev.vars for local development (never commit .dev.vars)
+# Set the same values as Cloudflare Pages secrets for production
+
+DEPLOY_AUTH_KEY=generate-a-long-random-hex-string-here
+DEPLOY_AUTH_KEY_2=generate-another-long-random-hex-string-for-user-2
+
+OAUTH_CLIENT_1_ID=deployer-xxxxxxxx
+OAUTH_CLIENT_1_SECRET=generate-a-long-random-hex-string-here
+OAUTH_CLIENT_2_ID=deployer-yyyyyyyy
+OAUTH_CLIENT_2_SECRET=generate-a-long-random-hex-string-here
+
+MCP_SECRET=your-secret-password-here
+
+CF_API_TOKEN=your-cloudflare-api-token
+CF_ACCOUNT_ID=your-cloudflare-account-id

@@ -1,0 +1,21 @@
+{
+  "name": "cloudflare-deployer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2025-06-01",
+    "deploy": "wrangler pages deploy public --project-name=simpsonsummer"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250525.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.100.0"
+  },
+  "allowScripts": {
+    "esbuild@0.27.3": true,
+    "fsevents@2.3.3": true,
+    "workerd@1.20260609.1": true,
+    "sharp@0.34.5": true,
+    "wrangler@4.100.0": true
+  }
+}

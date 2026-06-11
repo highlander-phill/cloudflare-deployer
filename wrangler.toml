@@ -1,0 +1,11 @@
+name = "cloudflare-deployer"
+pages_build_output_dir = "public"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "APPS"
+id = "e8d9efa3e0aa410680251fe4416de09b"
+
+[ai]
+binding = "AI"
