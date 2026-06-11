@@ -556,7 +556,10 @@ Reply with only the JSON, no extra text.`;
     // Enable workers.dev subdomain
     await cfFetch(`${acct}/workers/scripts/${workerName}/subdomain`, "POST", env.CF_API_TOKEN, { enabled: true });
 
-    const base = `https://${workerName}.stellagsimpson.workers.dev`;
+    const subRes = await cfFetch(`/accounts/${env.CF_ACCOUNT_ID}/workers/subdomain`, "GET", env.CF_API_TOKEN);
+    const workerSubdomain = subRes.result?.subdomain;
+    if (!workerSubdomain) throw new Error("Could not determine workers.dev subdomain from CF API");
+    const base = `https://${workerName}.${workerSubdomain}.workers.dev`;
     await env.APPS.put(`auth:${args.appName}`, JSON.stringify({
       workerName, base, jwtSecret,
       endpoints: { signup: `${base}/signup`, login: `${base}/login`, validate: `${base}/validate`, logout: `${base}/logout` }
