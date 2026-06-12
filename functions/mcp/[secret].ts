@@ -644,14 +644,24 @@ function checkSecret(provided: string, expected: string): boolean {
   return diff === 0;
 }
 
-export const onRequestOptions: PagesFunction<Env> = async ({ params, env }) => {
-  if (!checkSecret(params.secret as string, env.MCP_SECRET))
+function isAuthorized(request: Request, env: Env, routeSecret: string): boolean {
+  // Primary: URL-path secret (works with Claude.ai which doesn't forward headers)
+  if (checkSecret(decodeURIComponent(routeSecret), env.MCP_SECRET)) return true;
+  // Optional: X-Auth-Key header (for other MCP clients / REST callers)
+  const headerKey = request.headers.get("X-Auth-Key") ?? "";
+  if (headerKey && checkSecret(headerKey, env.DEPLOY_AUTH_KEY)) return true;
+  if (headerKey && env.DEPLOY_AUTH_KEY_2 && checkSecret(headerKey, env.DEPLOY_AUTH_KEY_2)) return true;
+  return false;
+}
+
+export const onRequestOptions: PagesFunction<Env> = async ({ request, params, env }) => {
+  if (!isAuthorized(request, env, params.secret as string))
     return new Response("Unauthorized", { status: 401 });
   return new Response(null, { status: 204, headers: CORS });
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env, params: routeParams }) => {
-  if (!checkSecret(decodeURIComponent(routeParams.secret as string), env.MCP_SECRET))
+  if (!isAuthorized(request, env, routeParams.secret as string))
     return new Response("Unauthorized", { status: 401 });
   let body: { jsonrpc: string; method: string; params?: any; id?: unknown };
   try {
